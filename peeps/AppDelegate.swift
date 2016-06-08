@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +18,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // [Optional] Power your app with Local Datastore. For more info, go to
+        // https://parse.com/docs/ios/guide#local-datastore
+        Parse.enableLocalDatastore()
+        
+        // Initialize Parse.
+        Parse.setApplicationId("EPH5GgGa42KXjB0n6sGcw9Zew7OMkYEw5jvzKdXJ",
+            clientKey: "QFYtpWNpZbTDV1N83jTsXfoTUqml5A3eaIBlVLdu")
+        
+        // [Optional] Track statistics around application opens.
+        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        
+        // call login function
+        login()
+        
+        // color of window
+        window?.backgroundColor = .whiteColor()
+
+        
         return true
     }
 
@@ -106,6 +125,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    func login() {
+        
+        // remember user's login
+        let username : String? = NSUserDefaults.standardUserDefaults().stringForKey("username")
+        
+        // if logged in
+        if username != nil {
+            
+            let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let myTabBar = storyboard.instantiateViewControllerWithIdentifier("tabBar") as! UITabBarController
+            window?.rootViewController = myTabBar
+        }
+        
+        
+        
+        
+    }
+    
 
 }
 
